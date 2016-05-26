@@ -46,23 +46,14 @@ var showQuestion = function(question) {
 // this function takes the answerer object returned by the StackOverflow request
 // and returns new result to be appended to DOM
 var showAnswerers = function(answerer) {
-    // clone our result template code
-    var result = $('.templates .answerers').clone();
-    // set the answer properties in result
-    var questionElem = result.find('.answerer a');
-    questionElem.attr('href', answerer.user.link);
-    questionElem.text(answerer.user.display_name);
-    // set image used by user in stackoverflow
-    var image = result.find('.answerer-image img');
-    image.attr('src', answerer.user.profile_image);
-    var reputaion = result.find('.reputation');
-    var acceptance = result.find('.acceptance');
-    reputaion.text(answerer.user.reputation);
-    acceptance.text(answerer.user.accept_rate);
-    var postcount = result.find('.post-count');
-    var score = result.find('.score');
-    postcount.text(answerer.post_count);
-    score.text(answerer.score);
+    // Get handlebar template
+    var template = Handlebars.templates.answerers;
+    //set all the handlebar contents
+    var context = {answerera: answerer.user.link, answerer: answerer.user.display_name,
+      answererimage: answerer.user.profile_image, reputation: answerer.user.reputation,
+      acceptance: answerer.user.accept_rate, postcount: answerer.post_count, score: answerer.score};
+    //add the contents to the template
+    var result = template(context);
     return result;
 };
 // this function takes the results object from StackOverflow
